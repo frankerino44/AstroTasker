@@ -15,6 +15,9 @@
         android:theme="@style/Theme.AstroTasker"
         tools:targetApi="31">
         <activity
+            android:name=".MainActivity"
+            android:exported="false" />
+        <activity
             android:name=".Social"
             android:exported="false" />
         <activity

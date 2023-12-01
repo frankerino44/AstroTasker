@@ -51,7 +51,7 @@ public class LogIn extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            redirectToTasks();
+                            redirectToMainActivity();
                         } else {
                             // If sign in fails, display a message to the user.
                             Exception e = task.getException();
@@ -78,8 +78,8 @@ public class LogIn extends AppCompatActivity {
         startActivity(redirectToSignUp);
     }
 
-    private void redirectToTasks() {
-        Intent redirectToTasks = new Intent(this, Tasks.class);
-        startActivity(redirectToTasks);
+    private void redirectToMainActivity() {
+        Intent redirectToMainActivity = new Intent(this, MainActivity.class);
+        startActivity(redirectToMainActivity);
     }
 }
