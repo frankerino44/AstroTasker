@@ -108,9 +108,7 @@ public class SignUp extends AppCompatActivity {
                             user.setFirstName(firstName);
                             user.setLastName(lastName);
                             user.setUsername(username);
-
-                            Toast.makeText(SignUp.this, uid,
-                                    Toast.LENGTH_SHORT).show();
+                            user.setEmail(email);
 
                             reference.child("Users").child(uid).setValue(user);
                             reference.child("Usernames").push().setValue(username);

@@ -29,6 +29,9 @@ public class LogIn extends AppCompatActivity {
     EditText emailET;
     EditText passwordET;
 
+    String email;
+    String password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +46,8 @@ public class LogIn extends AppCompatActivity {
     }
 
     public void logIn(View view) {
-        String email = emailET.getText().toString();
-        String password = passwordET.getText().toString();
+        email = emailET.getText().toString();
+        password = passwordET.getText().toString();
 
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -80,6 +83,7 @@ public class LogIn extends AppCompatActivity {
 
     private void redirectToMainActivity() {
         Intent redirectToMainActivity = new Intent(this, MainActivity.class);
+        redirectToMainActivity.putExtra("UID", auth.getCurrentUser().getUid());
         startActivity(redirectToMainActivity);
     }
 }
