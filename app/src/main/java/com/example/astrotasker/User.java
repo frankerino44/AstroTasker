@@ -1,5 +1,7 @@
 package com.example.astrotasker;
 
+import java.util.List;
+
 public class User {
 
     private String firstName;
