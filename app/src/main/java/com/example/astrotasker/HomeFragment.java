@@ -28,13 +28,28 @@ public class HomeFragment extends Fragment {
     private RadioGroup radioGroupTasks;
     private RadioGroup radioGroupCompletedTasks;
     private TextView textViewToDo;
-    String email;
+    String uid;
 
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private DatabaseReference tasksReference;
     private DatabaseReference completedTasksReference;
-    public String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+    DatabaseReference reference;
+    DatabaseReference userReference;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        uid = currentUser.getUid();
+        reference = database.getReference();
+        userReference = reference.child("Users").child(uid);
+        tasksReference = userReference.child("Tasks");
+        completedTasksReference = userReference.child("CompletedTasks");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
@@ -51,7 +66,7 @@ public class HomeFragment extends Fragment {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(adapter);
 
-        auth = FirebaseAuth.getInstance();
+        /*auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
 
 
@@ -59,16 +74,14 @@ public class HomeFragment extends Fragment {
         email = currentUser.getEmail();
 
         if (currentUser != null) {
-            userId = currentUser.getUid();
-
             // Initialize DatabaseReference variables
-            DatabaseReference userReference = database.getReference("Users").child(userId);
+            userReference = database.getReference("Users").child(userId);
             tasksReference = userReference.child("Tasks");
             completedTasksReference = userReference.child("CompletedTasks");
         } else {
             // Handle the case when the user is not authenticated
             // You may want to redirect to the login screen or take appropriate action
-        }
+        }*/
 
 
 
@@ -101,6 +114,7 @@ public class HomeFragment extends Fragment {
             // Store task data under user's "Tasks" subcollection
             Task task = new Task(taskText, category, xp);
             tasksReference.push().setValue(task);
+
         } else {
             Toast.makeText(requireContext(), "Task cannot be empty", Toast.LENGTH_SHORT).show();
         }

@@ -38,6 +38,7 @@ public class SignUp extends AppCompatActivity {
     EditText passwordET;
 
     ArrayList<String> usernameList;
+    String uid;
 
 
     @Override
@@ -102,7 +103,8 @@ public class SignUp extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, save new user in Freebase
-                            String uid = reference.child("Users").push().getKey();
+                            uid = auth.getUid();
+                            reference.child("Users").child(uid).push().getKey();
                             User user = new User();
 
                             user.setFirstName(firstName);

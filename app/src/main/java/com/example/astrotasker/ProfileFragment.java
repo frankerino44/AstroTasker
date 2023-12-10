@@ -35,8 +35,7 @@ public class ProfileFragment extends Fragment {
     TextView usernameTV;
     TextView emailTV;
 
-    String value;
-    String email;
+    String uid;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -49,7 +48,7 @@ public class ProfileFragment extends Fragment {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        email = currentUser.getEmail();
+        uid = currentUser.getUid();
     }
 
     @Override
@@ -72,16 +71,15 @@ public class ProfileFragment extends Fragment {
     }
 
     public void setFirstNameTV() {
-        reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("Users").child(uid).child("firstName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                    value = user.getFirstName();
-                    firstNameTV.setText(value);
+                    String firstName = dataSnapshot.getValue(String.class);
+                    firstNameTV.setText(firstName);
                 } else {
                     // User data does not exist
-                    value = "";
+
                 }
             }
 
@@ -89,22 +87,20 @@ public class ProfileFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
                 Log.i("CANCELLED", "CANCELLED");
-                value = "";
             }
         });
     }
 
-    public String setLastNameTV() {
-        reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void setLastNameTV() {
+        reference.child("Users").child(uid).child("lastName").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                    value = user.getLastName();
-                    lastNameTV.setText(value);
+                    String lastName = dataSnapshot.getValue(String.class);
+                    lastNameTV.setText(lastName);
                 } else {
                     // User data does not exist
-                    value = "";
+
                 }
             }
 
@@ -112,24 +108,20 @@ public class ProfileFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
                 Log.i("CANCELLED", "CANCELLED");
-                value = "";
             }
         });
-
-        return value;
     }
 
-    public String setUsernameTV() {
-        reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void setUsernameTV() {
+        reference.child("Users").child(uid).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                    value = user.getUsername();
-                    usernameTV.setText(value);
+                    String username = dataSnapshot.getValue(String.class);
+                    usernameTV.setText(username);
                 } else {
                     // User data does not exist
-                    value = "";
+
                 }
             }
 
@@ -137,24 +129,20 @@ public class ProfileFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
                 Log.i("CANCELLED", "CANCELLED");
-                value = "";
             }
         });
-
-        return value;
     }
 
-    public String setEmailTV() {
-        reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
+    public void setEmailTV() {
+        reference.child("Users").child(uid).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                    value = user.getEmail();
-                    emailTV.setText(value);
+                    String email = dataSnapshot.getValue(String.class);
+                    emailTV.setText(email);
                 } else {
                     // User data does not exist
-                    value = "";
+
                 }
             }
 
@@ -162,10 +150,7 @@ public class ProfileFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Handle error
                 Log.i("CANCELLED", "CANCELLED");
-                value = "";
             }
         });
-
-        return value;
     }
 }
