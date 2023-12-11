@@ -111,6 +111,7 @@ public class SignUp extends AppCompatActivity {
                             user.setLastName(lastName);
                             user.setUsername(username);
                             user.setEmail(email);
+                            user.setXp(0);
 
                             reference.child("Users").child(uid).setValue(user);
                             reference.child("Usernames").push().setValue(username);

@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -34,8 +35,15 @@ public class ProfileFragment extends Fragment {
     TextView lastNameTV;
     TextView usernameTV;
     TextView emailTV;
+    ImageView profilePhotoIV;
 
     String uid;
+    String firstName;
+    String lastName;
+    String username;
+    String email;
+    int imageNum;
+    int imageID;
 
     public ProfileFragment() {
         // Required empty public constructor
@@ -61,13 +69,52 @@ public class ProfileFragment extends Fragment {
         lastNameTV = view.findViewById(R.id.lastNameTV);
         usernameTV = view.findViewById(R.id.usernameTV);
         emailTV = view.findViewById(R.id.emailTV);
+        profilePhotoIV = view.findViewById(R.id.profilePhotoIV);
 
-        setFirstNameTV();
+        getUserInfo();
+        /*setFirstNameTV();
         setLastNameTV();
         setUsernameTV();
-        setEmailTV();
+        setEmailTV();*/
 
         return view;
+    }
+
+    private void getUserInfo() {
+        reference.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    firstName = user.getFirstName();
+                    lastName = user.getLastName();
+                    username = user.getUsername();
+                    email = user.getEmail();
+                    imageNum = user.getProfilePhoto();
+
+                    imageID = requireContext().getResources().getIdentifier("alien_" + imageNum, "drawable", requireContext().getPackageName());
+
+                    setFields();
+                } else {
+                    // User data does not exist
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+                Log.i("CANCELLED", "CANCELLED");
+            }
+        });
+    }
+
+    private void setFields() {
+        firstNameTV.setText(firstName);
+        lastNameTV.setText(lastName);
+        usernameTV.setText(username);
+        emailTV.setText(email);
+        profilePhotoIV.setImageResource(imageID);
     }
 
     public void setFirstNameTV() {

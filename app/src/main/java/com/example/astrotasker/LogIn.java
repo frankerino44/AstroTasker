@@ -17,8 +17,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LogIn extends AppCompatActivity {
 
@@ -54,7 +58,7 @@ public class LogIn extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            redirectToMainActivity();
+                            checkForPhoto();
                         } else {
                             // If sign in fails, display a message to the user.
                             Exception e = task.getException();
@@ -72,6 +76,27 @@ public class LogIn extends AppCompatActivity {
                 });
     }
 
+    private void checkForPhoto() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = currentUser.getUid();
+        reference.child("Users").child(uid).child("profilePhoto").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    redirectToMainActivity();
+                } else {
+                    redirectToCreateProfile();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+                Log.i("CANCELLED", "CANCELLED");
+            }
+        });
+    }
+
     public void signUpRedirect(View view) {
         redirectToSignUp();
     }
@@ -81,9 +106,13 @@ public class LogIn extends AppCompatActivity {
         startActivity(redirectToSignUp);
     }
 
+    private void redirectToCreateProfile() {
+        Intent redirectToCreateProfile = new Intent(this, CreateProfile.class);
+        startActivity(redirectToCreateProfile);
+    }
+
     private void redirectToMainActivity() {
         Intent redirectToMainActivity = new Intent(this, MainActivity.class);
-        redirectToMainActivity.putExtra("UID", auth.getCurrentUser().getUid());
         startActivity(redirectToMainActivity);
     }
 }

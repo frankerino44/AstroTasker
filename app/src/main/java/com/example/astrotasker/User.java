@@ -8,6 +8,8 @@ public class User {
     private String lastName;
     private String username;
     private String email;
+    private int xp;
+    private int profilePhoto;
 
     public String getFirstName() {
         return firstName;
@@ -39,5 +41,19 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+    public int getProfilePhoto() {
+        return profilePhoto;
+    }
+
+    public void setProfilePhoto(int profilePhoto) {
+        this.profilePhoto = profilePhoto;
     }
 }
