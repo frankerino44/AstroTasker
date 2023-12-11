@@ -92,8 +92,6 @@ public class SignUp extends AppCompatActivity {
                 Toast.makeText(SignUp.this, "Error checking database.", Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
 
     private void createUser(String email, String password, String firstName, String lastName, String username) {

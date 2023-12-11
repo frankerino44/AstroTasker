@@ -1,23 +1,30 @@
 package com.example.astrotasker;// HomeFragment.java
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 //import com.example.astrotasker.Task;
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class HomeFragment extends Fragment {
@@ -28,14 +35,26 @@ public class HomeFragment extends Fragment {
     private RadioGroup radioGroupTasks;
     private RadioGroup radioGroupCompletedTasks;
     private TextView textViewToDo;
-    String uid;
+    private TextView homeUsernameTV;
+    private TextView homeCurrentLevelTV;
+    private TextView homeNextLevelTV;
+    private ImageView homeProfilePhotoIV;
+    private ProgressBar homeLevelProgressBar;
+    private String uid;
+    private String username;
+    private int imageNum;
+    private int imageID;
+    private int level;
+    private int xp;
 
     private FirebaseAuth auth;
     private FirebaseDatabase database;
     private DatabaseReference tasksReference;
     private DatabaseReference completedTasksReference;
-    DatabaseReference reference;
-    DatabaseReference userReference;
+    private DatabaseReference levelReference;
+    private DatabaseReference xpReference;
+    private DatabaseReference reference;
+    private DatabaseReference userReference;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +67,8 @@ public class HomeFragment extends Fragment {
         userReference = reference.child("Users").child(uid);
         tasksReference = userReference.child("Tasks");
         completedTasksReference = userReference.child("CompletedTasks");
+        levelReference = userReference.child("level");
+        xpReference = userReference.child("xp");
     }
 
     @Override
@@ -60,30 +81,18 @@ public class HomeFragment extends Fragment {
         radioGroupTasks = view.findViewById(R.id.radioGroupTasks);
         radioGroupCompletedTasks = view.findViewById(R.id.radioGroupCompletedTasks);
         textViewToDo = view.findViewById(R.id.textViewToDo);
+        homeUsernameTV = view.findViewById(R.id.homeUsernameTV);
+        homeCurrentLevelTV = view.findViewById(R.id.homeCurrentLevelTV);
+        homeNextLevelTV = view.findViewById(R.id.homeNextLevelTV);
+        homeProfilePhotoIV = view.findViewById(R.id.homeProfilePhotoIV);
+        homeLevelProgressBar = view.findViewById(R.id.homeLevelProgressBar);
+
+        getUserInfo();
 
         // Set up the spinner with categories
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(requireContext(), R.array.categories, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerCategories.setAdapter(adapter);
-
-        /*auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-
-
-        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-        email = currentUser.getEmail();
-
-        if (currentUser != null) {
-            // Initialize DatabaseReference variables
-            userReference = database.getReference("Users").child(userId);
-            tasksReference = userReference.child("Tasks");
-            completedTasksReference = userReference.child("CompletedTasks");
-        } else {
-            // Handle the case when the user is not authenticated
-            // You may want to redirect to the login screen or take appropriate action
-        }*/
-
-
 
         btnAddTask.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,6 +102,55 @@ public class HomeFragment extends Fragment {
         });
 
         return view;
+    }
+
+    private void getUserInfo() {
+        reference.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    username = user.getUsername();
+                    imageNum = user.getProfilePhoto();
+                    imageID = requireContext().getResources().getIdentifier("alien_" + imageNum, "drawable", requireContext().getPackageName());
+                    level = user.getLevel();
+                    xp = user.getXp();
+                    setFields();
+                } else {
+                    // User data does not exist
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error
+                Log.i("CANCELLED", "CANCELLED");
+            }
+        });
+    }
+
+    private void setFields() {
+        homeUsernameTV.setText(username);
+        homeProfilePhotoIV.setImageResource(imageID);
+
+        double requiredXP = 10; // XP required for the first level
+        int level = 1;
+        double tempXP = xp;
+
+        while (tempXP >= requiredXP) {
+            tempXP -= requiredXP;
+            requiredXP *= 2;
+            level++;
+        }
+
+        homeCurrentLevelTV.setText("Level "+level);
+        String nextLevelText = "Level "+(level+1);
+        homeNextLevelTV.setText(nextLevelText);
+
+        homeLevelProgressBar.setProgress((int)(100*(tempXP/requiredXP)));
+
+        levelReference.setValue(level);
     }
 
     private void addTask() {
@@ -120,11 +178,11 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void completeTask(RadioButton radioButton, int xp) {
+    private void completeTask(RadioButton radioButton, int taskXP) {
         radioGroupTasks.removeView(radioButton);
         String category = spinnerCategories.getSelectedItem().toString();
         RadioButton completedTaskRadioButton = new RadioButton(requireContext());
-        completedTaskRadioButton.setText(String.format("%s", radioButton.getText(), xp));
+        completedTaskRadioButton.setText(String.format("%s", radioButton.getText(), taskXP));
         radioGroupCompletedTasks.addView(completedTaskRadioButton);
 
         if (radioGroupCompletedTasks.getChildCount() > 5) {
@@ -132,8 +190,29 @@ public class HomeFragment extends Fragment {
         }
 
         // Store completed task data under user's "CompletedTasks" subcollection
-        Task completedTask = new Task(radioButton.getText().toString(), category, xp);
+        Task completedTask = new Task(radioButton.getText().toString(), category, taskXP);
         completedTasksReference.push().setValue(completedTask);
+
+        xp += taskXP;
+        xpReference.setValue(xp);
+
+        double requiredXP = 10; // XP required for the first level
+        int level = 1;
+        double tempXP = xp;
+
+        while (tempXP >= requiredXP) {
+            tempXP -= requiredXP;
+            requiredXP *= 2;
+            level++;
+        }
+
+        homeCurrentLevelTV.setText("Level "+level);
+        String nextLevelText = "Level "+(level+1);
+        homeNextLevelTV.setText(nextLevelText);
+
+        homeLevelProgressBar.setProgress((int)(100*(tempXP/requiredXP)));
+
+        levelReference.setValue(level);
     }
 
 

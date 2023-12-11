@@ -51,6 +51,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:onClick="left"
+        android:outlineProvider="background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/profileSelectIV"
         app:layout_constraintHorizontal_bias="0.5"

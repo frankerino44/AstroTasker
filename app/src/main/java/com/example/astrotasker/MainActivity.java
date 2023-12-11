@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
     Fragment profileFragment;
     Fragment homeFragment;
     Fragment socialFragment;
+    ImageButton profileButton;
+    ImageButton homeButton;
+    ImageButton socialButton;
     private FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference reference;
@@ -40,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
         profileFragment = new ProfileFragment();
         homeFragment = new HomeFragment();
         socialFragment = new SocialFragment();
+
+        profileButton = findViewById(R.id.profileButton);
+        homeButton = findViewById(R.id.homeButton);
+        socialButton = findViewById(R.id.socialButton);
+
+        homeButton.setBackgroundResource(R.drawable.nav_bar_light);
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -185,18 +195,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void profile(View view) {
+        homeButton.setBackgroundResource(R.drawable.nav_bar);
+        socialButton.setBackgroundResource(R.drawable.nav_bar);
+        profileButton.setBackgroundResource(R.drawable.nav_bar_light);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainerView, profileFragment)
                 .commit();
     }
 
     public void home(View view) {
+        profileButton.setBackgroundResource(R.drawable.nav_bar);
+        socialButton.setBackgroundResource(R.drawable.nav_bar);
+        homeButton.setBackgroundResource(R.drawable.nav_bar_light);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainerView, homeFragment)
                 .commit();
     }
 
     public void social(View view) {
+        profileButton.setBackgroundResource(R.drawable.nav_bar);
+        homeButton.setBackgroundResource(R.drawable.nav_bar);
+        socialButton.setBackgroundResource(R.drawable.nav_bar_light);
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainerView, socialFragment)
                 .commit();

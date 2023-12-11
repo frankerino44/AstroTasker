@@ -127,71 +127,23 @@ public class ProfileFragment extends Fragment {
         currentLevelTV.setText(""+level);
         int nextLevel = level+1;
         nextLevelTV.setText(""+nextLevel);
-        levelProgressBar.setProgress(xp);
-    }
 
-    //
+        double requiredXP = 10; // XP required for the first level
+        int level = 1;
+        double tempXP = xp;
 
-    public void setLastNameTV() {
-        reference.child("Users").child(uid).child("lastName").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String lastName = dataSnapshot.getValue(String.class);
-                    lastNameTV.setText(lastName);
-                } else {
-                    // User data does not exist
+        while (tempXP >= requiredXP) {
+            tempXP -= requiredXP;
+            requiredXP *= 2;
+            level++;
+        }
 
-                }
-            }
+        currentLevelTV.setText(String.valueOf(level));
+        String nextLevelText = String.valueOf(level+1);
+        nextLevelTV.setText(nextLevelText);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
-            }
-        });
-    }
+        levelProgressBar.setProgress((int)(100*(tempXP/requiredXP)));
 
-    public void setUsernameTV() {
-        reference.child("Users").child(uid).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String username = dataSnapshot.getValue(String.class);
-                    usernameTV.setText(username);
-                } else {
-                    // User data does not exist
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
-            }
-        });
-    }
-
-    public void setEmailTV() {
-        reference.child("Users").child(uid).child("email").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String email = dataSnapshot.getValue(String.class);
-                    emailTV.setText(email);
-                } else {
-                    // User data does not exist
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
-            }
-        });
+        levelReference.setValue(level);
     }
 }

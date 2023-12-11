@@ -1,63 +1,122 @@
 <!-- fragment_home.xml -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/editTextTask"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter task" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/homeProfilePhotoIV"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/profile_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/circleImageView"
+        app:srcCompat="@drawable/alien_1" />
 
-    <Spinner
-        android:id="@+id/spinnerCategories"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextTask"
-        android:layout_marginTop="8dp"
-        android:entries="@array/categories"
-        android:prompt="@string/category_prompt" />
-
-    <Button
-        android:id="@+id/btnAddTask"
+    <TextView
+        android:id="@+id/homeUsernameTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerCategories"
-        android:layout_marginTop="8dp"
-        android:text="Add Task" />
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="25dp"
+        android:textColor="#D9D9D9"
+        android:textSize="20sp"
+        app:layout_constraintStart_toEndOf="@+id/homeProfilePhotoIV"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textViewToDo"
-        android:layout_width="match_parent"
+        android:id="@+id/homeCurrentLevelTV"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/btnAddTask"
-        android:layout_marginTop="16dp"
-        android:text="TO DO:"
-        android:textStyle="bold" />
-
-    <RadioGroup
-        android:id="@+id/radioGroupTasks"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/textViewToDo"
-        android:layout_marginTop="8dp">
-    </RadioGroup>
+        android:layout_marginBottom="5dp"
+        android:textColor="#B4B4B4"
+        app:layout_constraintBottom_toTopOf="@+id/homeLevelProgressBar"
+        app:layout_constraintStart_toStartOf="@+id/homeUsernameTV" />
 
     <TextView
-        android:id="@+id/textViewCompletedTasks"
-        android:layout_width="match_parent"
+        android:id="@+id/homeNextLevelTV"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/radioGroupTasks"
-        android:layout_marginTop="16dp"
-        android:text="Recent Completed Tasks"
-        android:textStyle="bold" />
+        app:layout_constraintBottom_toBottomOf="@+id/homeCurrentLevelTV"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
 
-    <RadioGroup
-        android:id="@+id/radioGroupCompletedTasks"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/background_medium"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/editTextTask"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter task" />
+
+        <Spinner
+            android:id="@+id/spinnerCategories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:entries="@array/categories"
+            android:prompt="@string/category_prompt" />
+
+        <Button
+            android:id="@+id/btnAddTask"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Add Task" />
+
+        <TextView
+            android:id="@+id/textViewToDo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="TO DO:"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupTasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"></RadioGroup>
+
+        <TextView
+            android:id="@+id/textViewCompletedTasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Recent Completed Tasks"
+            android:textStyle="bold" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupCompletedTasks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"></RadioGroup>
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/homeLevelProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textViewCompletedTasks"
-        android:layout_marginTop="8dp">
-    </RadioGroup>
+        android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
+        android:progressDrawable="@drawable/profile_progress_bar"
+        app:layout_constraintBottom_toBottomOf="@+id/homeProfilePhotoIV"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="@+id/homeCurrentLevelTV" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
