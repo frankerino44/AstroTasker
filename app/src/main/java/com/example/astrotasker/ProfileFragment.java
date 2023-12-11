@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProfileFragment#newInstance} factory method to
+ * Use the  factory method to
  * create an instance of this fragment.
  */
 public class ProfileFragment extends Fragment {
@@ -84,10 +84,6 @@ public class ProfileFragment extends Fragment {
         currentLevelTV = view.findViewById(R.id.currentLevTV);
         nextLevelTV = view.findViewById(R.id.nextLevelTV);
         getUserInfo();
-        /*setFirstNameTV();
-        setLastNameTV();
-        setUsernameTV();
-        setEmailTV();*/
 
         return view;
     }
@@ -128,10 +124,13 @@ public class ProfileFragment extends Fragment {
         usernameTV.setText(username);
         emailTV.setText(email);
         profilePhotoIV.setImageResource(imageID);
+        currentLevelTV.setText(""+level);
+        int nextLevel = level+1;
+        nextLevelTV.setText(""+nextLevel);
         levelProgressBar.setProgress(xp);
-        //levelProgressBar.setMax();
     }
 
+    //
 
     public void setLastNameTV() {
         reference.child("Users").child(uid).child("lastName").addListenerForSingleValueEvent(new ValueEventListener() {
