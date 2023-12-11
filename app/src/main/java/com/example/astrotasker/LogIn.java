@@ -82,7 +82,7 @@ public class LogIn extends AppCompatActivity {
         reference.child("Users").child(uid).child("profilePhoto").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
+                if (dataSnapshot.exists() && dataSnapshot.getValue(Integer.class) != 0) {
                     redirectToMainActivity();
                 } else {
                     redirectToCreateProfile();

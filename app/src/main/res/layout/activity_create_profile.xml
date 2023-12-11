@@ -22,12 +22,11 @@
         android:layout_width="200dp"
         android:layout_height="200dp"
         android:background="@drawable/profile_background"
-        app:layout_constraintBottom_toBottomOf="@+id/rightArrowIV"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/rightArrowIV"
-        app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@drawable/alien_1" />
 
     <Button
@@ -52,34 +51,37 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:onClick="left"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/profileSelectIV"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/left_arrow"
-        tools:layout_editor_absoluteY="315dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/left_arrow" />
 
     <ImageView
         android:id="@+id/rightArrowIV"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:onClick="right"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/profileSelectIV"
-        app:srcCompat="@drawable/right_arrow"
-        tools:layout_editor_absoluteY="307dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/right_arrow" />
 
     <TextView
         android:id="@+id/createProfileTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
         android:text="Select Your Grey"
+        android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/profileSelectIV"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createProfileLogoIV"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,7 @@ public class User {
     private String email;
     private int xp;
     private int profilePhoto;
+    private int level;
 
     public String getFirstName() {
         return firstName;
@@ -52,8 +53,13 @@ public class User {
     public int getProfilePhoto() {
         return profilePhoto;
     }
-
     public void setProfilePhoto(int profilePhoto) {
         this.profilePhoto = profilePhoto;
+    }
+    public int getLevel() {
+        return level;
+    }
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
