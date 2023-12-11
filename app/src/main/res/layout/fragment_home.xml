@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="25dp"
+        android:fontFamily="@font/audiowide"
         android:textColor="#D9D9D9"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/homeProfilePhotoIV"
@@ -33,6 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
+        android:fontFamily="@font/audiowide"
         android:textColor="#B4B4B4"
         app:layout_constraintBottom_toTopOf="@+id/homeLevelProgressBar"
         app:layout_constraintStart_toStartOf="@+id/homeUsernameTV" />
@@ -41,6 +43,7 @@
         android:id="@+id/homeNextLevelTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/audiowide"
         app:layout_constraintBottom_toBottomOf="@+id/homeCurrentLevelTV"
         app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
 
@@ -62,13 +65,17 @@
             android:id="@+id/editTextTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter task" />
+            android:fontFamily="@font/audiowide"
+            android:hint="Enter task"
+            android:textColor="#4CAF50"
+            android:textColorHint="#FFFFFF" />
 
         <Spinner
             android:id="@+id/spinnerCategories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:backgroundTint="@color/white"
             android:entries="@array/categories"
             android:prompt="@string/category_prompt" />
 
@@ -77,6 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:fontFamily="@font/audiowide"
             android:text="Add Task" />
 
         <TextView
@@ -84,7 +92,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/audiowide"
             android:text="TO DO:"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <RadioGroup
@@ -98,7 +108,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/audiowide"
             android:text="Recent Completed Tasks"
+            android:textColor="@color/white"
             android:textStyle="bold" />
 
         <RadioGroup

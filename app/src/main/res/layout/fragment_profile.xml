@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginTop="100dp"
+        android:fontFamily="@font/audiowide"
         android:text="First Name: "
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePhotoIV" />
 
@@ -22,7 +24,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/audiowide"
         android:text="Last Name: "
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/firstNameLabel"
         app:layout_constraintTop_toBottomOf="@+id/firstNameLabel" />
 
@@ -31,7 +35,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/audiowide"
         android:text="Username: "
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/lastNameLabel"
         app:layout_constraintTop_toBottomOf="@+id/lastNameLabel" />
 
@@ -40,7 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/audiowide"
         android:text="Email: "
+        android:textColor="@color/white"
         app:layout_constraintStart_toStartOf="@+id/usernameLabel"
         app:layout_constraintTop_toBottomOf="@+id/usernameLabel" />
 
@@ -50,6 +58,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:layout_marginEnd="100dp"
+        android:fontFamily="@font/audiowide"
+        android:textColor="#4CAF50"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePhotoIV" />
 
@@ -58,6 +68,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/audiowide"
+        android:textColor="#4CAF50"
         app:layout_constraintEnd_toEndOf="@+id/firstNameTV"
         app:layout_constraintTop_toBottomOf="@+id/firstNameTV" />
 
@@ -66,6 +78,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/audiowide"
+        android:textColor="#4CAF50"
         app:layout_constraintEnd_toEndOf="@+id/lastNameTV"
         app:layout_constraintTop_toBottomOf="@+id/lastNameTV" />
 
@@ -74,6 +88,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:fontFamily="@font/audiowide"
+        android:textColor="#4CAF50"
         app:layout_constraintEnd_toEndOf="@+id/usernameTV"
         app:layout_constraintTop_toBottomOf="@+id/usernameTV" />
 
@@ -94,8 +110,8 @@
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="172dp"
         android:layout_height="31dp"
-        android:layout_marginTop="35dp"
-        android:layout_marginEnd="120dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="119dp"
         android:indeterminateBehavior="repeat"
         android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
         android:progressDrawable="@drawable/profile_progress_bar"
@@ -107,8 +123,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="188dp"
+        android:layout_marginEnd="185dp"
+        android:fontFamily="@font/audiowide"
         android:text="Level"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePhotoIV" />
 
@@ -118,8 +136,10 @@
         android:layout_height="28dp"
         android:layout_marginTop="239dp"
         android:layout_marginEnd="19dp"
+        android:fontFamily="@font/audiowide"
         android:text="0"
         android:textAlignment="viewEnd"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/levelProgressBar"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -129,7 +149,9 @@
         android:layout_height="28dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="239dp"
+        android:fontFamily="@font/audiowide"
         android:text="1"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/levelProgressBar"
         app:layout_constraintTop_toTopOf="parent" />
 
