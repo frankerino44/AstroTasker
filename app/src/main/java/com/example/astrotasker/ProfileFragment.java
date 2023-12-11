@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -30,13 +31,14 @@ public class ProfileFragment extends Fragment {
     private FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference reference;
-
+    TextView currentLevelTV;
+    TextView nextLevelTV;
     TextView firstNameTV;
     TextView lastNameTV;
     TextView usernameTV;
     TextView emailTV;
     ImageView profilePhotoIV;
-
+    ProgressBar levelProgressBar;
     String uid;
     String firstName;
     String lastName;
@@ -44,7 +46,12 @@ public class ProfileFragment extends Fragment {
     String email;
     int imageNum;
     int imageID;
-
+    int xp;
+    int level;
+    int levelFactor = 2;
+    DatabaseReference userReference;
+    private DatabaseReference levelReference;
+    private DatabaseReference completedTasksReference;
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -57,6 +64,9 @@ public class ProfileFragment extends Fragment {
         reference = database.getReference();
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         uid = currentUser.getUid();
+        userReference = reference.child("Users").child(uid);
+        levelReference = userReference.child("Level");
+        completedTasksReference = userReference.child("CompletedTasks");
     }
 
     @Override
@@ -70,7 +80,9 @@ public class ProfileFragment extends Fragment {
         usernameTV = view.findViewById(R.id.usernameTV);
         emailTV = view.findViewById(R.id.emailTV);
         profilePhotoIV = view.findViewById(R.id.profilePhotoIV);
-
+        levelProgressBar = view.findViewById(R.id.levelProgressBar);
+        currentLevelTV = view.findViewById(R.id.currentLevTV);
+        nextLevelTV = view.findViewById(R.id.nextLevelTV);
         getUserInfo();
         /*setFirstNameTV();
         setLastNameTV();
@@ -79,6 +91,7 @@ public class ProfileFragment extends Fragment {
 
         return view;
     }
+
 
     private void getUserInfo() {
         reference.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -91,9 +104,9 @@ public class ProfileFragment extends Fragment {
                     username = user.getUsername();
                     email = user.getEmail();
                     imageNum = user.getProfilePhoto();
-
                     imageID = requireContext().getResources().getIdentifier("alien_" + imageNum, "drawable", requireContext().getPackageName());
-
+                    level = user.getLevel();
+                    xp = user.getXp();
                     setFields();
                 } else {
                     // User data does not exist
@@ -115,28 +128,10 @@ public class ProfileFragment extends Fragment {
         usernameTV.setText(username);
         emailTV.setText(email);
         profilePhotoIV.setImageResource(imageID);
+        levelProgressBar.setProgress(xp);
+        //levelProgressBar.setMax();
     }
 
-    public void setFirstNameTV() {
-        reference.child("Users").child(uid).child("firstName").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String firstName = dataSnapshot.getValue(String.class);
-                    firstNameTV.setText(firstName);
-                } else {
-                    // User data does not exist
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
-            }
-        });
-    }
 
     public void setLastNameTV() {
         reference.child("Users").child(uid).child("lastName").addListenerForSingleValueEvent(new ValueEventListener() {

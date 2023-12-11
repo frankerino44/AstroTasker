@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/someID"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
@@ -87,4 +88,48 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/levelProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="172dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="120dp"
+        android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
+        android:progressDrawable="@android:drawable/progress_horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePhotoIV" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="188dp"
+        android:text="Level"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profilePhotoIV" />
+
+    <TextView
+        android:id="@+id/currentLevTV"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="239dp"
+        android:layout_marginEnd="19dp"
+        android:text="0"
+        android:textAlignment="viewEnd"
+        app:layout_constraintEnd_toStartOf="@+id/levelProgressBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/nextLevelTV"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="239dp"
+        android:text="1"
+        app:layout_constraintStart_toEndOf="@+id/levelProgressBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
