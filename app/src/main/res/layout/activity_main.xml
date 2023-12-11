@@ -21,6 +21,7 @@
         app:layout_constraintBottom_toBottomOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/navBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
@@ -40,8 +41,8 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:onClick="profile"
                 android:background="@drawable/nav_bar"
+                android:onClick="profile"
                 android:scaleType="centerInside"
                 android:src="@drawable/profile_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -54,8 +55,8 @@
                 android:layout_height="45dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
-                android:onClick="home"
                 android:background="@drawable/nav_bar"
+                android:onClick="home"
                 android:scaleType="centerInside"
                 android:src="@drawable/home_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
