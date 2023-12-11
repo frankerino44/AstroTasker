@@ -65,10 +65,10 @@
             android:id="@+id/editTextTask"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/audiowide"
+            android:fontFamily="@font/roboto"
             android:hint="Enter task"
             android:textColor="#4CAF50"
-            android:textColorHint="#FFFFFF" />
+            android:textColorHint="#D9D9D9" />
 
         <Spinner
             android:id="@+id/spinnerCategories"
@@ -82,19 +82,25 @@
         <Button
             android:id="@+id/btnAddTask"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_marginTop="8dp"
-            android:fontFamily="@font/audiowide"
-            android:text="Add Task" />
+            android:backgroundTint="#4D4D4D"
+            android:fontFamily="@font/roboto"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="Add Task"
+            android:textSize="16sp"
+            app:cornerRadius="8dp" />
 
         <TextView
             android:id="@+id/textViewToDo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/audiowide"
-            android:text="TO DO:"
-            android:textColor="@color/white"
+            android:fontFamily="@font/roboto"
+            android:text="To Do:"
+            android:textColor="#D9D9D9"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <RadioGroup
@@ -108,9 +114,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:fontFamily="@font/audiowide"
-            android:text="Recent Completed Tasks"
-            android:textColor="@color/white"
+            android:fontFamily="@font/roboto"
+            android:text="Recent Completed Tasks:"
+            android:textColor="#D9D9D9"
+            android:textSize="16sp"
             android:textStyle="bold" />
 
         <RadioGroup

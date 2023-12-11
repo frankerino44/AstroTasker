@@ -2,5 +2,8 @@
 <resources>
     <array name="preloaded_fonts" translatable="false">
         <item>@font/audiowide</item>
+        <item>@font/roboto</item>
+        <item>@font/roboto_condensed_light</item>
+        <item>@font/roboto_condensed_regular</item>
     </array>
 </resources>
