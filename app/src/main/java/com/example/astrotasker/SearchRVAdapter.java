@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,10 +26,16 @@ import java.util.ArrayList;
 
 public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.MyViewHolder> {
     private ArrayList<User> searchUsers;
+    private OnItemClickListener onItemClickListener;
 
     // Constructor to initialize the list
-    public SearchRVAdapter(ArrayList<User> searchUsers) {
+    public SearchRVAdapter(ArrayList<User> searchUsers, OnItemClickListener onItemClickListener) {
         this.searchUsers = searchUsers;
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void add(String text);
     }
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -37,6 +44,7 @@ public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.MyView
         TextView searchCurrentLevelTV;
         TextView searchNextLevelTV;
         ProgressBar searchProgressBar;
+        Button addButton;
         FirebaseDatabase database;
         DatabaseReference reference;
         FirebaseUser currentUser;
@@ -49,6 +57,7 @@ public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.MyView
             searchCurrentLevelTV = view.findViewById(R.id.searchCurrentLevelTV);
             searchNextLevelTV = view.findViewById(R.id.searchNextLevelTV);
             searchProgressBar = view.findViewById(R.id.searchProgressBar);
+            addButton = view.findViewById(R.id.addButton);
 
             database = FirebaseDatabase.getInstance();
             reference = database.getReference();
@@ -88,6 +97,18 @@ public class SearchRVAdapter extends RecyclerView.Adapter<SearchRVAdapter.MyView
         }
 
         holder.searchProgressBar.setProgress((int)(100*(tempXP/requiredXP)));
+
+        holder.addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Retrieve the text from the TextView and store it in a String
+                String username = holder.searchUsernameTV.getText().toString();
+
+                if (onItemClickListener != null) {
+                    onItemClickListener.add(username);
+                }
+            }
+        });
     }
 
     @Override

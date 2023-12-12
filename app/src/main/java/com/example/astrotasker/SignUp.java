@@ -113,6 +113,7 @@ public class SignUp extends AppCompatActivity {
                             user.setLevel(1);
 
                             reference.child("Users").child(uid).setValue(user);
+                            reference.child("Users").child(uid).child("friends").setValue(null);
                             reference.child("Usernames").push().setValue(username);
 
                             redirectToCreateProfile();

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,7 +31,7 @@ import java.util.List;
  * Use the {@link SocialFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class SocialFragment extends Fragment {
+public class SocialFragment extends Fragment implements SearchRVAdapter.OnItemClickListener{
 
     private FirebaseAuth auth;
     FirebaseDatabase database;
@@ -43,8 +44,12 @@ public class SocialFragment extends Fragment {
 
     String uid;
     String currentUsername;
+    String addedUsername;
     ArrayList<User> searchUsers;
+    ArrayList<User> friendsUsers;
+    ArrayList<String> friendsUsernames;
     SearchRVAdapter searchRVAdapter;
+    FriendsRVAdapter friendsRVAdapter;
 
     public SocialFragment() {
         // Required empty public constructor
@@ -67,12 +72,41 @@ public class SocialFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_social, container, false);
 
+        loadCurrentUsername();
+
+        searchET = view.findViewById(R.id.searchET);
+        searchRV = view.findViewById(R.id.searchRV);
+        friendsRV = view.findViewById(R.id.friendsRV);
+        searchUsers = new ArrayList<>();
+        friendsUsers = new ArrayList<>();
+        searchRVAdapter = new SearchRVAdapter(searchUsers, this);
+        friendsRVAdapter = new FriendsRVAdapter(friendsUsers);
+        searchButton = view.findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search();
+            }
+        });
+
+        searchRV.setLayoutManager(new LinearLayoutManager(requireContext()));
+        searchRV.setAdapter(searchRVAdapter);
+        friendsRV.setLayoutManager(new LinearLayoutManager(requireContext()));
+        friendsRV.setAdapter(friendsRVAdapter);
+
+        friendsUsers = new ArrayList<>();
+        friendsUsernames = new ArrayList<>();
+        loadFriends();
+
+        return view;
+    }
+
+    private void loadCurrentUsername() {
         reference.child("Users").child(uid).child("username").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     currentUsername = dataSnapshot.getValue(String.class);
-                    Log.i("CURRENT ONCREATE", currentUsername);
                 } else {
                     // User data does not exist
 
@@ -85,24 +119,96 @@ public class SocialFragment extends Fragment {
                 Log.i("CANCELLED", "CANCELLED");
             }
         });
+    }
 
-        searchET = view.findViewById(R.id.searchET);
-        searchRV = view.findViewById(R.id.searchRV);
-        friendsRV = view.findViewById(R.id.friendsRV);
-        searchUsers = new ArrayList<>();
-        searchRVAdapter = new SearchRVAdapter(searchUsers);
-        searchButton = view.findViewById(R.id.searchButton);
-        searchButton.setOnClickListener(new View.OnClickListener() {
+    private void loadFriends() {
+        reference.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                search();
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    ArrayList<String> friends = user.getFriends();
+                    if (friends != null) {
+                        friendsUsernames.addAll(friends);
+                        usernamesToFriendsList();
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Error referencing database.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle potential errors here
             }
         });
+    }
 
-        searchRV.setLayoutManager(new LinearLayoutManager(requireContext()));
-        searchRV.setAdapter(searchRVAdapter);
+    private void usernamesToFriendsList() {
+        for(String username : friendsUsernames) {
+            reference.child("Users").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                        User user = userSnapshot.getValue(User.class);
+                        friendsUsers.add(user);
+                    }
 
-        return view;
+                    friendsRVAdapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    // Handle errors
+                }
+            });
+        }
+    }
+
+    @Override
+    public void add(String text) {
+        addedUsername = text;
+
+        reference.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    User user = dataSnapshot.getValue(User.class);
+                    ArrayList<String> friends = user.getFriends();
+                    if (friends == null || friends.isEmpty() || !(friends.contains(addedUsername))) {
+                        addFriend();
+                    } else {
+                        Toast.makeText(requireContext(), "You've already added this user!", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "Error referencing database.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle potential errors here
+            }
+        });
+    }
+
+    private void addFriend() {
+        reference.child("Users").orderByChild("username").equalTo(addedUsername).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    User user = userSnapshot.getValue(User.class);
+                    friendsUsers.add(user);
+                    friendsRVAdapter.notifyDataSetChanged();
+                    reference.child("Users").child(uid).child("friends").push().setValue(addedUsername);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle errors
+            }
+        });
     }
 
     public void search() {
@@ -117,7 +223,9 @@ public class SocialFragment extends Fragment {
                     // For example, userSnapshot.child("username").getValue() to get the username
                     User user = userSnapshot.getValue(User.class);
 
-                    if (currentUsername != user.getUsername()) {
+                    String username = user.getUsername();
+
+                    if (!(currentUsername.equals(username))) {
                         searchUsers.add(user);
                     }
                 }
@@ -130,9 +238,5 @@ public class SocialFragment extends Fragment {
                 // Handle errors
             }
         });
-    }
-
-    public void add(View view) {
-
     }
 }
