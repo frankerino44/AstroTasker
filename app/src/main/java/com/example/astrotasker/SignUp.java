@@ -148,7 +148,7 @@ public class SignUp extends AppCompatActivity {
     }
 
     private void redirectToCreateProfile() {
-        Intent redirectToCreateProfile = new Intent(this, CreateProfile.class);
+        Intent redirectToCreateProfile = new Intent(this, ChooseAvatar.class);
         startActivity(redirectToCreateProfile);
     }
 }

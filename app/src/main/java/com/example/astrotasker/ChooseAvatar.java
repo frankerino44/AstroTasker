@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-public class CreateProfile extends AppCompatActivity {
+public class ChooseAvatar extends AppCompatActivity {
 
     ImageView profileSelectIV;
     int imageID;
@@ -26,7 +26,7 @@ public class CreateProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_profile);
+        setContentView(R.layout.activity_choose_avatar);
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();

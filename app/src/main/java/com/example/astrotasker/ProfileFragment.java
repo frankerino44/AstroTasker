@@ -65,8 +65,8 @@ public class ProfileFragment extends Fragment {
         FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
         uid = currentUser.getUid();
         userReference = reference.child("Users").child(uid);
-        levelReference = userReference.child("Level");
-        completedTasksReference = userReference.child("CompletedTasks");
+        levelReference = userReference.child("level");
+        completedTasksReference = userReference.child("completedTasks");
     }
 
     @Override

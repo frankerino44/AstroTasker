@@ -72,8 +72,8 @@ public class HomeFragment extends Fragment {
         uid = currentUser.getUid();
         reference = database.getReference();
         userReference = reference.child("Users").child(uid);
-        tasksReference = userReference.child("Tasks");
-        completedTasksReference = userReference.child("CompletedTasks");
+        tasksReference = userReference.child("tasks");
+        completedTasksReference = userReference.child("completedTasks");
         levelReference = userReference.child("level");
         xpReference = userReference.child("xp");
     }
@@ -187,7 +187,7 @@ public class HomeFragment extends Fragment {
             RadioButton radioButton = new RadioButton(requireContext());
             radioButton.setText(String.format("%s (%d XP)", taskText, xp));
             radioButton.setTextColor(Color.WHITE);
-            radioButton.setOnClickListener(view -> completeTask(radioButton, xp));
+            radioButton.setOnClickListener(view -> completeTask(radioButton, taskText, xp));
 
             // Add RadioButton to RadioGroup
             radioGroupTasks.addView(radioButton);
@@ -202,7 +202,7 @@ public class HomeFragment extends Fragment {
         }
     }
 
-    private void completeTask(RadioButton radioButton, int taskXP) {
+    private void completeTask(RadioButton radioButton, String text, int taskXP) {
         radioGroupTasks.removeView(radioButton);
         String category = spinnerCategories.getSelectedItem().toString();
         String taskText = radioButton.getText().toString().split(" \\(")[0];
@@ -217,7 +217,7 @@ public class HomeFragment extends Fragment {
         }
 
         // Store completed task data under user's "CompletedTasks" subcollection
-        Task completedTask = new Task(radioButton.getText().toString(), category, taskXP);
+        Task completedTask = new Task(/*radioButton.getText().toString()*/ text, category, taskXP);
         completedTasksReference.push().setValue(completedTask);
 
         xp += taskXP;
@@ -294,7 +294,7 @@ public class HomeFragment extends Fragment {
                         RadioButton radioButton = new RadioButton(requireContext());
                         radioButton.setText(String.format("%s (%d XP)", task.getTaskText(), task.getXp()));
                         radioButton.setTextColor(Color.WHITE);
-                        radioButton.setOnClickListener(view -> completeTask(radioButton, task.getXp()));
+                        radioButton.setOnClickListener(view -> completeTask(radioButton, task.getTaskText(), task.getXp()));
 
                         // Add RadioButton to RadioGroup
                         radioGroupTasks.addView(radioButton);

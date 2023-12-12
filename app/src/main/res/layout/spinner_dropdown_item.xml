@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- res/layout/spinner_dropdown_item.xml -->
-<TextView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:fontFamily="@font/roboto"
     android:padding="8dp"
-    android:textColor="#FFFFFF"
-    android:textSize="16sp"
-    android:fontFamily="@font/audiowide"/>
+    android:textColor="#D9D9D9"
+    android:textSize="16sp" />

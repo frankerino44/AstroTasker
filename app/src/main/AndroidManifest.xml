@@ -27,7 +27,7 @@
             android:name=".ViewProfile"
             android:exported="false" />
         <activity
-            android:name=".CreateProfile"
+            android:name=".ChooseAvatar"
             android:exported="false" />
         <activity
             android:name=".SignUp"

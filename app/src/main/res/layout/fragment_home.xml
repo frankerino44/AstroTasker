@@ -14,8 +14,7 @@
         android:background="@drawable/profile_background"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/circleImageView"
-        app:srcCompat="@drawable/alien_1" />
+        app:shapeAppearanceOverlay="@style/circleImageView" />
 
     <TextView
         android:id="@+id/homeUsernameTV"
@@ -23,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="25dp"
-        android:fontFamily="@font/audiowide"
+        android:fontFamily="@font/roboto"
         android:textColor="#D9D9D9"
         android:textSize="20sp"
         app:layout_constraintStart_toEndOf="@+id/homeProfilePhotoIV"
@@ -34,7 +33,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:fontFamily="@font/audiowide"
+        android:fontFamily="@font/roboto"
         android:textColor="#B4B4B4"
         app:layout_constraintBottom_toTopOf="@+id/homeLevelProgressBar"
         app:layout_constraintStart_toStartOf="@+id/homeUsernameTV" />
@@ -43,12 +42,12 @@
         android:id="@+id/homeNextLevelTV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/audiowide"
+        android:fontFamily="@font/roboto"
         app:layout_constraintBottom_toBottomOf="@+id/homeCurrentLevelTV"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout" />
+        app:layout_constraintEnd_toEndOf="@+id/tasksCL" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/tasksCL"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="25dp"
@@ -64,68 +63,118 @@
         <EditText
             android:id="@+id/editTextTask"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/edit_text_2"
             android:fontFamily="@font/roboto"
             android:hint="Enter task"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             android:textColor="#4CAF50"
-            android:textColorHint="#D9D9D9" />
+            android:textColorHint="#D9D9D9"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Spinner
-            android:id="@+id/spinnerCategories"
-            android:layout_width="match_parent"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/spinnerCL"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:backgroundTint="@color/white"
-            android:entries="@array/categories"
-            android:prompt="@string/category_prompt" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edit_text_2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTask">
+
+            <Spinner
+                android:id="@+id/spinnerCategories"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:backgroundTint="#D9D9D9"
+                android:entries="@array/categories"
+                android:prompt="@string/category_prompt"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <Button
             android:id="@+id/btnAddTask"
             android:layout_width="wrap_content"
-            android:layout_height="45dp"
-            android:layout_marginTop="8dp"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="#4D4D4D"
             android:fontFamily="@font/roboto"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:text="Add Task"
+            android:textColor="#D9D9D9"
             android:textSize="16sp"
-            app:cornerRadius="8dp" />
+            app:cornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/editTextTask" />
 
         <TextView
             android:id="@+id/textViewToDo"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
             android:fontFamily="@font/roboto"
             android:text="To Do:"
             android:textColor="#D9D9D9"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/spinnerCL" />
 
         <RadioGroup
             android:id="@+id/radioGroupTasks"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"></RadioGroup>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewToDo"></RadioGroup>
 
         <TextView
             android:id="@+id/textViewCompletedTasks"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
             android:fontFamily="@font/roboto"
-            android:text="Recent Completed Tasks:"
+            android:text="Recently Completed Tasks:"
             android:textColor="#D9D9D9"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textViewToDo" />
 
         <RadioGroup
             android:id="@+id/radioGroupCompletedTasks"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"></RadioGroup>
-    </LinearLayout>
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewCompletedTasks"></RadioGroup>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ProgressBar
         android:id="@+id/homeLevelProgressBar"
@@ -135,7 +184,7 @@
         android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
         android:progressDrawable="@drawable/profile_progress_bar"
         app:layout_constraintBottom_toBottomOf="@+id/homeProfilePhotoIV"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="@+id/tasksCL"
         app:layout_constraintStart_toStartOf="@+id/homeCurrentLevelTV" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
