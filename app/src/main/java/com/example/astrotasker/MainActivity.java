@@ -60,91 +60,9 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    /*private void getValue(String key) {
-        reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                    String value;
-                    switch (key) {
-                        case "firstName":
-                            value = user.getFirstName();
-                            break;
-                        case "lastName":
-                            value = user.getLastName();
-                            break;
-                        case "username":
-                            value = user.getUsername();
-                            break;
-                        case "email":
-                            value = user.getEmail();
-                            break;
-                        default:
-                            value = "";
-                            break;
-                    }
-                    Log.i("Value", value);
-                } else {
-                    // User data does not exist
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
-            }
-        });
-    }*/
 
-    public String getFirstName() {
-        reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                    value = user.getFirstName();;
-                } else {
-                    // User data does not exist
-                    value = "";
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
-                value = "";
-            }
-        });
-
-        return value;
-    }
-
-    public String getLastName() {
-        reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                    value = user.getLastName();;
-                } else {
-                    // User data does not exist
-                    value = "";
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
-                value = "";
-            }
-        });
-
-        return value;
-    }
 
     public String getUsername() {
         reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -170,29 +88,7 @@ public class MainActivity extends AppCompatActivity {
         return value;
     }
 
-    public String getEmail() {
-        reference.child("Users").orderByChild("email").equalTo(email).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getChildren().iterator().next().getValue(User.class);
-                    value = user.getEmail();;
-                } else {
-                    // User data does not exist
-                    value = "";
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
-                value = "";
-            }
-        });
-
-        return value;
-    }
 
     public void profile(View view) {
         homeButton.setBackgroundResource(R.drawable.nav_bar);
