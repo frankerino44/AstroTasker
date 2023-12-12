@@ -66,11 +66,10 @@ public class User {
     public void setLevel(int level) {
         this.level = level;
     }
-    public ArrayList<String> getFriends() {
+    /*public ArrayList<String> getFriends() {
         return friends;
     }
-
     public void setFriends(Map<String, String> friends) {
         this.friends = new ArrayList<>(friends.values());;
-    }
+    }*/
 }

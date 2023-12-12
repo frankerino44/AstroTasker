@@ -8,6 +8,44 @@
     tools:context=".ProfileFragment">
 
     <TextView
+        android:id="@+id/currentLevTV"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="20dp"
+        android:fontFamily="@font/roboto"
+        android:text="0"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/levelProgressBar"
+        tools:layout_editor_absoluteY="239dp" />
+
+    <TextView
+        android:id="@+id/nextLevelTV"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="239dp"
+        android:fontFamily="@font/roboto"
+        android:text="1"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/levelProgressBar"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ProgressBar
+        android:id="@+id/levelProgressBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="172dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="10dp"
+        android:indeterminateBehavior="repeat"
+        android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
+        android:progressDrawable="@drawable/profile_progress_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/levelLabel" />
+
+    <TextView
         android:id="@+id/firstNameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -104,54 +142,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <ProgressBar
-        android:id="@+id/levelProgressBar"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="172dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="120dp"
-        android:indeterminateBehavior="repeat"
-        android:indeterminateDrawable="@android:drawable/progress_indeterminate_horizontal"
-        android:progressDrawable="@drawable/profile_progress_bar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/levelLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:layout_marginEnd="188dp"
         android:fontFamily="@font/roboto"
         android:text="Level"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilePhotoIV" />
-
-    <TextView
-        android:id="@+id/currentLevTV"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginTop="239dp"
-        android:layout_marginEnd="19dp"
-        android:fontFamily="@font/roboto"
-        android:text="0"
-        android:textAlignment="viewEnd"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toStartOf="@+id/levelProgressBar"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/nextLevelTV"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="239dp"
-        android:fontFamily="@font/roboto"
-        android:text="1"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toEndOf="@+id/levelProgressBar"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

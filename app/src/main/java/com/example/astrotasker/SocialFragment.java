@@ -94,9 +94,9 @@ public class SocialFragment extends Fragment implements SearchRVAdapter.OnItemCl
         friendsRV.setLayoutManager(new LinearLayoutManager(requireContext()));
         friendsRV.setAdapter(friendsRVAdapter);
 
-        friendsUsers = new ArrayList<>();
         friendsUsernames = new ArrayList<>();
         loadFriends();
+        friendsRVAdapter.notifyDataSetChanged();
 
         return view;
     }
@@ -107,46 +107,45 @@ public class SocialFragment extends Fragment implements SearchRVAdapter.OnItemCl
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     currentUsername = dataSnapshot.getValue(String.class);
-                } else {
-                    // User data does not exist
-
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle error
-                Log.i("CANCELLED", "CANCELLED");
+
             }
         });
     }
 
     private void loadFriends() {
-        reference.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("Users").child(uid).child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> friends = new ArrayList<>();
                 if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getValue(User.class);
-                    ArrayList<String> friends = user.getFriends();
+                    for (DataSnapshot friendsSnapshot : dataSnapshot.getChildren()) {
+                        friends.add(friendsSnapshot.getValue(String.class));
+                    }
+
                     if (friends != null) {
                         friendsUsernames.addAll(friends);
                         usernamesToFriendsList();
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Error referencing database.", Toast.LENGTH_SHORT).show();
+                    usernamesToFriendsList();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                // Handle potential errors here
+
             }
         });
     }
 
     private void usernamesToFriendsList() {
-        for(String username : friendsUsernames) {
-            reference.child("Users").orderByChild("username").equalTo(username).addListenerForSingleValueEvent(new ValueEventListener() {
+        for (String username : friendsUsernames) {
+            reference.child("Users").orderByChild("username").equalTo(username).limitToFirst(1).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
@@ -159,29 +158,35 @@ public class SocialFragment extends Fragment implements SearchRVAdapter.OnItemCl
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
-                    // Handle errors
+
                 }
             });
         }
     }
 
+
+
+
     @Override
     public void add(String text) {
         addedUsername = text;
 
-        reference.child("Users").child(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+        reference.child("Users").child(uid).child("friends").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                ArrayList<String> friends = new ArrayList<>();
                 if (dataSnapshot.exists()) {
-                    User user = dataSnapshot.getValue(User.class);
-                    ArrayList<String> friends = user.getFriends();
+                    for (DataSnapshot friendSnapshot : dataSnapshot.getChildren()) {
+                        friends.add(friendSnapshot.getValue(String.class));
+                    }
+
                     if (friends == null || friends.isEmpty() || !(friends.contains(addedUsername))) {
                         addFriend();
                     } else {
                         Toast.makeText(requireContext(), "You've already added this user!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(requireContext(), "Error referencing database.", Toast.LENGTH_SHORT).show();
+                    addFriend();
                 }
             }
 
